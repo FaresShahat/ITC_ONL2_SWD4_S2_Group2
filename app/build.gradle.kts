@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id ("kotlin-kapt")
 }
 
 android {
@@ -71,4 +72,25 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    dependencies {
+        // Room Database
+        implementation (libs.androidx.room.runtime)
+        kapt (libs.androidx.room.compiler)
+
+        // لتشغيل Coroutines مع Room
+        implementation (libs.androidx.room.ktx)
+
+        // ViewModel و LiveData لدعم الـ UI
+        implementation (libs.androidx.lifecycle.viewmodel.ktx)
+        implementation (libs.androidx.lifecycle.livedata.ktx)
+
+        // دعم Kotlin Coroutines
+        implementation (libs.kotlinx.coroutines.android)
+        implementation (libs.jetbrains.kotlinx.coroutines.core)
+    }
+
+
+
+
 }
