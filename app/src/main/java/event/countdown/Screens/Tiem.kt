@@ -1,7 +1,6 @@
 package event.countdown.Screens
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -16,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
@@ -203,5 +203,11 @@ private fun changeDate(date: Date, days: Int): Date {
     calendar.time = date
     calendar.add(Calendar.DAY_OF_MONTH, days)
     return calendar.time
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun dd(){
+    Evennt()
 }
 
