@@ -17,9 +17,6 @@ class MainActivity : ComponentActivity() {
         setContent {
 //            EventCountdownTheme {
 //                Evennt()
-//
-//
-//
 //            }
             val navController = rememberNavController()
             AppNavHost(navController)

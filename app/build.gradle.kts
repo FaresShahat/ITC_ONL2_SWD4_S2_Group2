@@ -95,4 +95,13 @@ dependencies {
     implementation("androidx.room:room-runtime:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
+
+
+    //The calender
+    implementation("androidx.compose.material3:material3:1.2.0")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.5.0")
+
+
+    //The calender V2
+    implementation("com.google.accompanist:accompanist-pager:0.28.0")
 }
