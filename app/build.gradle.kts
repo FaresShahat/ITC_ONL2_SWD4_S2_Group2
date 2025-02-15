@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id ("kotlin-kapt")
-    id("com.google.devtools.ksp")
 }
 
 android {
@@ -50,7 +49,6 @@ android {
         }
     }
 }
-
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -73,35 +71,27 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-//        // Room Database
-//        implementation (libs.androidx.room.runtime)
-//        kapt (libs.androidx.room.compiler)
-//
-//        // لتشغيل Coroutines مع Room
-//        implementation (libs.androidx.room.ktx)
-//
-//        // ViewModel و LiveData لدعم الـ UI
-//        implementation (libs.androidx.lifecycle.viewmodel.ktx)
-//        implementation (libs.androidx.lifecycle.livedata.ktx)
-//
-//        // دعم Kotlin Coroutines
-//        implementation (libs.kotlinx.coroutines.android)
-//        implementation (libs.jetbrains.kotlinx.coroutines.core)
-    //The Nav
-    implementation (libs.androidx.navigation.compose)
-    //Room
-    val room_version = "2.6.1"
 
-    implementation("androidx.room:room-runtime:$room_version")
-    ksp("androidx.room:room-compiler:$room_version")
-    implementation("androidx.room:room-ktx:$room_version")
+    dependencies {
+        // Room Database
+        implementation (libs.androidx.room.runtime)
 
+        // لتشغيل Coroutines مع Room
+        implementation (libs.androidx.room.ktx)
+
+        // ViewModel و LiveData لدعم الـ UI
+        implementation (libs.androidx.lifecycle.viewmodel.ktx)
+        implementation (libs.androidx.lifecycle.livedata.ktx)
+
+        // دعم Kotlin Coroutines
+        implementation (libs.kotlinx.coroutines.android)
+        implementation (libs.jetbrains.kotlinx.coroutines.core)
+
+    }
 
     //The calender
-    implementation("androidx.compose.material3:material3:1.2.0")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.5.0")
-
-
+    implementation("androidx.compose.material3:material3:1.3.1")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.7.8")
     //The calender V2
     implementation("com.google.accompanist:accompanist-pager:0.28.0")
 }

@@ -10,3 +10,28 @@ data class Event(
     val description: String,
     val timestamp: Date
 )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//import androidx.room.*
+//import java.util.Date
+//
+//@Entity(tableName = "events")
+//data class Event(
+//    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+//    val title: String,
+//    val description: String,
+//    val timestamp: Date
+//)

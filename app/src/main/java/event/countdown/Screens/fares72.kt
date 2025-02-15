@@ -24,13 +24,10 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import event.countdown.Model.SpinnerViewModel
-//import event.countdown.ui.theme.Purple500
-import event.countdown.ui.theme.dark_Primary
 
 
 
@@ -67,7 +64,7 @@ fun fares() {
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(dark_Primary)
+                .background(color = Color.White)
                 .padding(15.dp)
         ) {
             Text(
@@ -155,7 +152,7 @@ fun fares() {
                     },
                     modifier = Modifier
                         .clip(RoundedCornerShape(10.dp))
-                        .background(dark_Primary)
+                        .background(Color.White)
                         .padding(5.dp)
                 ) {
                     Text(text = "Select Date", color = Color.White)
@@ -174,13 +171,7 @@ fun DropdownMenuItem(onClick: () -> Unit, interactionSource: @Composable () -> U
 }
 
 
-@Preview(
-    showSystemUi = true
-)
-@Composable
-fun x(){
-    fares()
-}
+
 
 //package event.countdown.Screens
 //
@@ -320,3 +311,4 @@ fun x(){
 //        }
 //    }
 //}
+
