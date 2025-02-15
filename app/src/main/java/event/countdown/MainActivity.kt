@@ -4,12 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
-import event.countdown.Screens.Evennt
-import event.countdown.Screens.fares
+import dagger.hilt.android.AndroidEntryPoint
+import event.countdown.Model.AddEventViewModel
 import event.countdown.TheNav.AppNavHost
-import event.countdown.ui.theme.EventCountdownTheme
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,9 +17,14 @@ class MainActivity : ComponentActivity() {
         setContent {
 //            EventCountdownTheme {
 //                Evennt()
+//
+//
+//
 //            }
             val navController = rememberNavController()
-            AppNavHost(navController)
+            val viewModel: AddEventViewModel = viewModel()
+            AppNavHost(navController, viewModel)
+         //   AppNavHost(navController,viewModel)
         }
     }
 }

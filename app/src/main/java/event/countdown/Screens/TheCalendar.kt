@@ -1,3 +1,4 @@
+
 package event.countdown.Screens
 
 
@@ -19,7 +20,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,8 +29,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import event.countdown.Model.CalendarViewModel
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.TextStyle
@@ -40,9 +42,13 @@ import java.util.Locale
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedTransitionTargetStateParameter")
 @Composable
-fun TheCalender(navController: NavHostController){
+fun TheCalender(navController: NavHostController, calendarViewModel: CalendarViewModel = viewModel())
+{
     val context = LocalContext.current
     Scaffold(
+
+
+
         topBar = {
             Column {
                 TopAppBar(
@@ -127,6 +133,11 @@ fun TheCalender(navController: NavHostController){
             }
         }
     }
+}
+
+fun TopAppBar(title: @Composable () -> Unit, navigationIcon: @Composable () -> Unit, colors: Unit) {
+
+
 }
 
 

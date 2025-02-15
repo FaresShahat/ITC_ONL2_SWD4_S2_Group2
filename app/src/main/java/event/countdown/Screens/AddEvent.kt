@@ -8,30 +8,26 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import event.countdown.Model.AddEventViewModel
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import java.util.*
 
 @Composable
-fun AddEvent(navController: NavHostController){
+fun AddEvent(navController: NavHostController, viewModel: AddEventViewModel = viewModel()) {
     var showDialog by remember { mutableStateOf(true) }
-    val events = remember { mutableStateMapOf<String, MutableList<String>>() }
     val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale("ar"))
     var selectedDate by remember { mutableStateOf(Calendar.getInstance().time) }
+
     if (showDialog) {
         AddEventDialog(
             onAddEvent = { event ->
                 val currentDateKey = dateFormat.format(selectedDate)
-                events.getOrPut(currentDateKey) { mutableListOf() }.add(event)
+                viewModel.addEvent(currentDateKey, event)
                 showDialog = false
             },
             onCancel = { showDialog = false },
@@ -40,13 +36,9 @@ fun AddEvent(navController: NavHostController){
     }
 }
 
-
-
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddEventDialog(onAddEvent: (String) -> Unit, onCancel: () -> Unit,navController: NavHostController) {
+fun AddEventDialog(onAddEvent: (String) -> Unit, onCancel: () -> Unit, navController: NavHostController) {
     var eventText by remember { mutableStateOf("") }
     AlertDialog(
         onDismissRequest = onCancel,
@@ -57,25 +49,29 @@ fun AddEventDialog(onAddEvent: (String) -> Unit, onCancel: () -> Unit,navControl
                     eventText = ""
                 }
             }) {
-                Text("Add")
+                Text("إضافة")
             }
         },
         dismissButton = {
-            Button(
-                onClick ={navController.popBackStack()}
-            ) {
-                Text("Cancel")
+            Button(onClick = { navController.popBackStack() }) {
+                Text("إلغاء")
             }
         },
-        title = { Text("Add Event", fontWeight = FontWeight.Bold) },
+        title = { Text("إضافة حدث", fontWeight = FontWeight.Bold) },
         text = {
             Column {
-                Text("Add Event name: ")
+                Text("أدخل اسم الحدث:")
+
                 TextField(
                     value = eventText,
                     onValueChange = { eventText = it },
                     singleLine = true,
-                    colors = TextFieldDefaults.textFieldColors( Color.White, containerColor = Color.DarkGray)
+                    colors = TextFieldDefaults.colors(
+                        focusedTextColor = Color.White,  // لون النص عندما يكون الحقل مفعّلًا
+                        unfocusedTextColor = Color.White, // لون النص عندما يكون الحقل غير مفعّل
+                        focusedContainerColor = Color.DarkGray, // لون الخلفية عندما يكون الحقل مفعّلًا
+                        unfocusedContainerColor = Color.DarkGray // لون الخلفية عندما يكون الحقل غير مفعّل
+                    )
                 )
             }
         },

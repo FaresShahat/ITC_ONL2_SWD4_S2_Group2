@@ -21,7 +21,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import event.countdown.Model.ClockViewModel
 import event.countdown.R
 import event.countdown.TheNav.Screens
 import kotlinx.coroutines.delay
@@ -36,8 +38,10 @@ import java.util.Locale
 @Composable
 fun ClockAppScreen(
 //    onItemClick: (Any?) -> Unit
-    navController: NavHostController
+    navController: NavHostController,
+    clockViewModel: ClockViewModel = hiltViewModel()
 ) {
+
     var time by remember { mutableStateOf(Calendar.getInstance()) }
 
     LaunchedEffect(Unit) {
@@ -275,3 +279,16 @@ fun ClockAppScreen(
         }
     }
 }
+
+fun TopAppBar(
+    title: @Composable () -> Unit,
+    navigationIcon: @Composable () -> Unit,
+    actions: @Composable() (RowScope.() -> Unit),
+    colors: Unit
+) {
+
+
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+fun TopAppBarDefaults.smallTopAppBarColors(containerColor: Color) {}
