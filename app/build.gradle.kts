@@ -72,7 +72,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    dependencies {
         // Room Database
         implementation (libs.androidx.room.runtime)
 
@@ -86,8 +85,6 @@ dependencies {
         // دعم Kotlin Coroutines
         implementation (libs.kotlinx.coroutines.android)
         implementation (libs.jetbrains.kotlinx.coroutines.core)
-
-    }
 
     //The calender
     implementation("androidx.compose.material3:material3:1.2.0")
