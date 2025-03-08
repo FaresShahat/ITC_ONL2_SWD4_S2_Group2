@@ -18,7 +18,7 @@ class AddEventViewModel @Inject constructor(
 
     fun addEvent(date: String, eventName: String) {
         viewModelScope.launch {
-            repository.addEvent(date, eventName)
+//            repository.addEvent(date, eventName)
         }
     }
 }

@@ -41,9 +41,6 @@ fun AddEvent(navController: NavHostController){
 }
 
 
-
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEventDialog(onAddEvent: (String) -> Unit, onCancel: () -> Unit,navController: NavHostController) {
@@ -75,7 +72,7 @@ fun AddEventDialog(onAddEvent: (String) -> Unit, onCancel: () -> Unit,navControl
                     value = eventText,
                     onValueChange = { eventText = it },
                     singleLine = true,
-                    colors = TextFieldDefaults.textFieldColors( Color.White, containerColor = Color.DarkGray)
+                    colors =  TextFieldDefaults.colors()/*textFieldColors( Color.White, containerColor = Color.DarkGray)*/
                 )
             }
         },

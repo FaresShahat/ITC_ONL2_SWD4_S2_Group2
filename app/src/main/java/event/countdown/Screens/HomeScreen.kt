@@ -95,7 +95,7 @@ fun ClockAppScreen(
 
                 }) { Icon(painterResource(id = R.drawable.menu_icon), "Menu", tint = Color.White) } },
                 actions = { IconButton(onClick = {}) { Icon(painterResource(id = R.drawable.vertical_ellipsis_icon), "Settings" , tint = Color.White)} },
-                colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.DarkGray)
+//                colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.DarkGray)
             )
 
             // 🟡 Date + Sun Icon

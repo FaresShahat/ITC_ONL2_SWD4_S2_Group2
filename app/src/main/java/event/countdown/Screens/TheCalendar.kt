@@ -11,15 +11,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,10 +30,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import event.countdown.Model.CalendarViewModel
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.TextStyle
@@ -42,13 +41,9 @@ import java.util.Locale
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedTransitionTargetStateParameter")
 @Composable
-fun TheCalender(navController: NavHostController, calendarViewModel: CalendarViewModel = viewModel())
-{
+fun TheCalender(navController: NavHostController){
     val context = LocalContext.current
     Scaffold(
-
-
-
         topBar = {
             Column {
                 TopAppBar(
@@ -62,7 +57,7 @@ fun TheCalender(navController: NavHostController, calendarViewModel: CalendarVie
                             )
                         }
                     },
-                    colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.DarkGray)
+                    colors = TopAppBarDefaults.topAppBarColors(Color.DarkGray)
                 )
                 Divider(color = Color.Gray, thickness = 1.dp)
             }
@@ -102,11 +97,11 @@ fun TheCalender(navController: NavHostController, calendarViewModel: CalendarVie
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(7),
                     modifier = Modifier.padding(top = 8.dp)
-                ) {
+                ){
                     items(firstDayOfMonth) {
                         Spacer(modifier = Modifier.size(40.dp))
                     }
-
+                    //daysInMonth [0==>28,29,30]
                     items(daysInMonth) { day ->
                         val isToday = day + 1 == today.dayOfMonth
                         Box(
@@ -124,7 +119,7 @@ fun TheCalender(navController: NavHostController, calendarViewModel: CalendarVie
                         ) {
                             Text(
                                 text = "${day + 1}",
-                                color = if (isToday) Color.White else Color.White,
+                                color = Color.White,//if (isToday) Color.White else Color.Black
                                 fontWeight = if (isToday) FontWeight.Bold else FontWeight.Normal
                             )
                         }
@@ -135,11 +130,55 @@ fun TheCalender(navController: NavHostController, calendarViewModel: CalendarVie
     }
 }
 
-fun TopAppBar(title: @Composable () -> Unit, navigationIcon: @Composable () -> Unit, colors: Unit) {
 
 
-}
 
+//@SuppressLint("UnusedTransitionTargetStateParameter")
+//@Composable
+//fun DateTimePicker() {
+//    val context = LocalContext.current
+//    val viewModel: SpinnerViewModel = viewModel()
+//    val dateTime = viewModel.time.observeAsState()
+//
+//    Column(
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .background(Color.White),
+//        horizontalAlignment = Alignment.CenterHorizontally
+//    ) {
+//        Column(
+//            horizontalAlignment = Alignment.CenterHorizontally,
+//            verticalArrangement = Arrangement.Center,
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .background(Color(0xFF6200EE))
+//                .padding(15.dp)
+//        ) {
+//            Text(
+//                text = "Date & Time Picker",
+//                fontWeight = FontWeight.Bold,
+//                fontSize = 20.sp,
+//                color = Color.White
+//            )
+//        }
+//        Spacer(modifier = Modifier.height(10.dp))
+//
+//        Spacer(modifier = Modifier.height(20.dp))
+//        TextButton(
+//            onClick = {
+//                viewModel.selectDateTime(context)
+//            },
+//            modifier = Modifier
+//                .clip(RoundedCornerShape(10.dp))
+//                .background(Color(0xFF6200EE))
+//                .padding(5.dp)
+//        ) {
+//            Text(text = "Select Date", color = Color.White)
+//        }
+//        Spacer(modifier = Modifier.height(10.dp))
+//        Text(text = dateTime.value ?: "No Time Set")
+//    }
+//}
 
 @Preview(
     showSystemUi = true
