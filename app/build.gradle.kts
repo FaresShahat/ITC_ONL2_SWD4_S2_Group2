@@ -50,7 +50,7 @@ android {
     }
 }
 dependencies {
-
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.31.1-alpha")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
