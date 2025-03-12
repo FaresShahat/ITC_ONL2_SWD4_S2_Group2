@@ -1,23 +1,25 @@
+@file:Suppress("UnusedMaterial3ScaffoldPaddingParameter")
 
 package event.countdown.Screens
 
-import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Divider
+import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.*
+import androidx.compose.material.icons.filled.ChevronLeft
+import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -31,19 +33,39 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.TextStyle
 import java.util.Locale
+import androidx.compose.foundation.border
+
 
 @OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("UnusedTransitionTargetStateParameter")
 @Composable
 fun TheCalender(navController: NavHostController) {
     val context = LocalContext.current
-    var selectedDay by remember { mutableStateOf(LocalDate.now().dayOfMonth) } // Track selected day
+    var displayedMonth by remember { mutableStateOf(YearMonth.now()) }
+    var selectedDate by remember { mutableStateOf(LocalDate.now()) }
 
-    Scaffold(
-        topBar = {
-            Column {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(
+                        Color(0xFF0D1B2A),
+                        Color(0xFF1B263B)
+                    )
+                )
+            )
+    ) {
+        Scaffold(
+            containerColor = Color.Transparent,
+            topBar = {
                 TopAppBar(
-                    title = { Text("Calendar", color = Color.White) },
+                    title = {
+                        Text(
+                            text = "Calendar",
+                            color = Color.White,
+                            fontSize = 20.sp
+                        )
+                    },
                     navigationIcon = {
                         IconButton(onClick = { navController.popBackStack() }) {
                             Icon(
@@ -53,83 +75,121 @@ fun TheCalender(navController: NavHostController) {
                             )
                         }
                     },
-                    colors = TopAppBarDefaults.topAppBarColors(Color.DarkGray)
+                    colors = TopAppBarDefaults.smallTopAppBarColors(
+                        containerColor = Color.Transparent
+                    )
                 )
-                Divider(color = Color.Gray, thickness = 1.dp)
             }
-        }
-    ) { paddingValues ->
-        Column(
-            Modifier
-                .fillMaxSize()
-                .background(color = Color.Black)
-                .padding(paddingValues)
-        ) {
-            val today = LocalDate.now()
-            val currentMonth = YearMonth.of(today.year, today.month)
-            val daysInMonth = currentMonth.lengthOfMonth()
-            val firstDayOfMonth = currentMonth.atDay(1).dayOfWeek.value % 7
+        ) { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .padding(16.dp)
+            ) {
+                val currentDate = LocalDate.now()
+                val firstDay = displayedMonth.atDay(1)
+                val daysInMonth = displayedMonth.lengthOfMonth()
+                val firstDayOfMonthIndex = (firstDay.dayOfWeek.value % 7)
+                val displayMonthName = firstDay.month.getDisplayName(TextStyle.FULL, Locale.getDefault())
+                val displayYear = firstDay.year
 
-            Column(modifier = Modifier.padding(16.dp)) {
-                Text(
-                    text = "${today.month.getDisplayName(TextStyle.FULL, Locale.getDefault())} ${today.year}",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(bottom = 8.dp),
-                    color = Color.White
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    IconButton(onClick = { displayedMonth = displayedMonth.minusMonths(1) }) {
+                        Icon(
+                            imageVector = Icons.Default.ChevronLeft,
+                            contentDescription = null,
+                            tint = Color.White
+                        )
+                    }
+                    Text(
+                        text = "$displayMonthName $displayYear",
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                        modifier = Modifier.padding(horizontal = 8.dp)
+                    )
+                    IconButton(onClick = { displayedMonth = displayedMonth.plusMonths(1) }) {
+                        Icon(
+                            imageVector = Icons.Default.ChevronRight,
+                            contentDescription = null,
+                            tint = Color.White
+                        )
+                    }
+                }
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    listOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat").forEach { day ->
+                    listOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat").forEach {
                         Text(
-                            text = day,
+                            text = it,
                             modifier = Modifier.weight(1f),
                             textAlign = TextAlign.Center,
-                            color = Color.White
+                            color = Color.White,
+                            fontWeight = FontWeight.SemiBold
                         )
                     }
                 }
 
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(7),
-                    modifier = Modifier.padding(top = 8.dp)
-                ) {
-                    items(firstDayOfMonth) {
-                        Spacer(modifier = Modifier.size(40.dp))
+                Spacer(modifier = Modifier.height(8.dp))
+
+                LazyVerticalGrid(columns = GridCells.Fixed(7), modifier = Modifier.padding(top = 8.dp)) {
+                    items(firstDayOfMonthIndex) {
+                        Spacer(modifier = Modifier.size(50.dp))
                     }
-                    items(daysInMonth) { day ->
-                        val dayNumber = day + 1
-                        val isToday = dayNumber == today.dayOfMonth
-                        val isSelected = selectedDay == dayNumber
+                    items(daysInMonth) { index ->
+                        val dayNumber = index + 1
+                        val isToday = (
+                                dayNumber == currentDate.dayOfMonth &&
+                                        displayedMonth.year == currentDate.year &&
+                                        displayedMonth.month == currentDate.month
+                                )
+                        val isSelected = (
+                                selectedDate.year == displayedMonth.year &&
+                                        selectedDate.month == displayedMonth.month &&
+                                        selectedDate.dayOfMonth == dayNumber
+                                )
+                        val targetColor = if (isSelected) Color(0xFF00BCD4) else Color.Transparent
+                        val backgroundColor by animateColorAsState(targetValue = targetColor)
+                        val borderColor = if (isToday && !isSelected) Color.Blue else Color.Transparent
 
-                        // 🔹 Animated background color for selected day
-                        val backgroundColor by animateColorAsState(
-                            targetValue = if (isSelected) Color.Green else Color.Transparent,
-                            label = "DaySelectionAnimation"
-                        )
-
-                        // 🔹 Border for today's date (if not selected)
-                        val borderModifier = if (isToday && !isSelected) Modifier.border(2.dp, Color.Blue, CircleShape) else Modifier
-
-                        Box(
+                        Card(
                             modifier = Modifier
-                                .size(40.dp)
-                                .then(borderModifier) // Apply border only to today when it's not selected
-                                .background(backgroundColor, shape = CircleShape)
+                                .padding(4.dp)
+                                .size(50.dp)
                                 .clickable {
-                                    selectedDay = dayNumber
+                                    selectedDate = LocalDate.of(
+                                        displayedMonth.year,
+                                        displayedMonth.month,
+                                        dayNumber
+                                    )
                                     Toast.makeText(context, "Selected day: $dayNumber", Toast.LENGTH_SHORT).show()
                                 },
-                            contentAlignment = Alignment.Center
+                            shape = CircleShape,
+                            colors = CardDefaults.cardColors(containerColor = backgroundColor),
+                            elevation = CardDefaults.cardElevation(4.dp)
                         ) {
-                            Text(
-                                text = "$dayNumber",
-                                color = Color.White,
-                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
-                            )
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clip(CircleShape)
+                                    .border(width = 2.dp, color = borderColor, shape = CircleShape),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = "$dayNumber",
+                                    color = Color.White,
+                                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
+                                )
+                            }
                         }
                     }
                 }
