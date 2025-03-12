@@ -296,7 +296,7 @@ fun ClockAppScreen(navController: NavHostController) {
                     ) {
                         IconButton(onClick = { }) {
                             Icon(
-                                painter = painterResource(id = R.drawable.wall_clockl),
+                                painter = painterResource(id = R.drawable.wall_clock),
                                 contentDescription = "Left",
                                 tint = Color.White
                             )
