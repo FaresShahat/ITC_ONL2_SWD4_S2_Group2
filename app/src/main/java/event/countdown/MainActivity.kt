@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
 //            EventCountdownTheme {
-//                Evennt()
+//                Evennt ()
 //            }
             val navController = rememberNavController()
             AppNavHost(navController)

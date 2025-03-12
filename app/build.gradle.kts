@@ -94,4 +94,5 @@ dependencies {
 
     implementation ("androidx.compose.material3:material3:1.1.2") // For Material 3
     implementation ("androidx.compose.material:material:1.5.4") // For Material 2
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.32.0")//Add the Accompanist Dependency
 }

@@ -1,11 +1,11 @@
 
 package event.countdown.Screens
 
-
-import androidx.compose.runtime.Composable
 import android.annotation.SuppressLint
 import android.widget.Toast
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -14,14 +14,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import java.time.LocalDate
@@ -37,12 +32,13 @@ import java.time.YearMonth
 import java.time.format.TextStyle
 import java.util.Locale
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedTransitionTargetStateParameter")
 @Composable
-fun TheCalender(navController: NavHostController){
+fun TheCalender(navController: NavHostController) {
     val context = LocalContext.current
+    var selectedDay by remember { mutableStateOf(LocalDate.now().dayOfMonth) } // Track selected day
+
     Scaffold(
         topBar = {
             Column {
@@ -62,8 +58,13 @@ fun TheCalender(navController: NavHostController){
                 Divider(color = Color.Gray, thickness = 1.dp)
             }
         }
-    ) {PaddingValues->
-        Column(Modifier.fillMaxSize().background(color = Color.Black).padding(PaddingValues)) {
+    ) { paddingValues ->
+        Column(
+            Modifier
+                .fillMaxSize()
+                .background(color = Color.Black)
+                .padding(paddingValues)
+        ) {
             val today = LocalDate.now()
             val currentMonth = YearMonth.of(today.year, today.month)
             val daysInMonth = currentMonth.lengthOfMonth()
@@ -71,11 +72,9 @@ fun TheCalender(navController: NavHostController){
 
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = today.month.getDisplayName(
-                        TextStyle.FULL,
-                        Locale.getDefault()
-                    ) + " " + today.year,
-                    style = MaterialTheme.typography.headlineMedium,
+                    text = "${today.month.getDisplayName(TextStyle.FULL, Locale.getDefault())} ${today.year}",
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(bottom = 8.dp),
                     color = Color.White
                 )
@@ -97,30 +96,39 @@ fun TheCalender(navController: NavHostController){
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(7),
                     modifier = Modifier.padding(top = 8.dp)
-                ){
+                ) {
                     items(firstDayOfMonth) {
                         Spacer(modifier = Modifier.size(40.dp))
                     }
-                    //daysInMonth [0==>28,29,30]
                     items(daysInMonth) { day ->
-                        val isToday = day + 1 == today.dayOfMonth
+                        val dayNumber = day + 1
+                        val isToday = dayNumber == today.dayOfMonth
+                        val isSelected = selectedDay == dayNumber
+
+                        // 🔹 Animated background color for selected day
+                        val backgroundColor by animateColorAsState(
+                            targetValue = if (isSelected) Color.Green else Color.Transparent,
+                            label = "DaySelectionAnimation"
+                        )
+
+                        // 🔹 Border for today's date (if not selected)
+                        val borderModifier = if (isToday && !isSelected) Modifier.border(2.dp, Color.Blue, CircleShape) else Modifier
+
                         Box(
                             modifier = Modifier
                                 .size(40.dp)
-                                .background(
-                                    if (isToday) Color.Blue else Color.Transparent,
-                                    shape = CircleShape
-                                )
+                                .then(borderModifier) // Apply border only to today when it's not selected
+                                .background(backgroundColor, shape = CircleShape)
                                 .clickable {
-                                    //To handel the Data
-                                    Toast.makeText(context , "Selected day: ${day + 1}", Toast.LENGTH_SHORT).show()
+                                    selectedDay = dayNumber
+                                    Toast.makeText(context, "Selected day: $dayNumber", Toast.LENGTH_SHORT).show()
                                 },
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "${day + 1}",
-                                color = Color.White,//if (isToday) Color.White else Color.Black
-                                fontWeight = if (isToday) FontWeight.Bold else FontWeight.Normal
+                                text = "$dayNumber",
+                                color = Color.White,
+                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
                             )
                         }
                     }
@@ -130,61 +138,9 @@ fun TheCalender(navController: NavHostController){
     }
 }
 
-
-
-
-//@SuppressLint("UnusedTransitionTargetStateParameter")
-//@Composable
-//fun DateTimePicker() {
-//    val context = LocalContext.current
-//    val viewModel: SpinnerViewModel = viewModel()
-//    val dateTime = viewModel.time.observeAsState()
-//
-//    Column(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .background(Color.White),
-//        horizontalAlignment = Alignment.CenterHorizontally
-//    ) {
-//        Column(
-//            horizontalAlignment = Alignment.CenterHorizontally,
-//            verticalArrangement = Arrangement.Center,
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .background(Color(0xFF6200EE))
-//                .padding(15.dp)
-//        ) {
-//            Text(
-//                text = "Date & Time Picker",
-//                fontWeight = FontWeight.Bold,
-//                fontSize = 20.sp,
-//                color = Color.White
-//            )
-//        }
-//        Spacer(modifier = Modifier.height(10.dp))
-//
-//        Spacer(modifier = Modifier.height(20.dp))
-//        TextButton(
-//            onClick = {
-//                viewModel.selectDateTime(context)
-//            },
-//            modifier = Modifier
-//                .clip(RoundedCornerShape(10.dp))
-//                .background(Color(0xFF6200EE))
-//                .padding(5.dp)
-//        ) {
-//            Text(text = "Select Date", color = Color.White)
-//        }
-//        Spacer(modifier = Modifier.height(10.dp))
-//        Text(text = dateTime.value ?: "No Time Set")
-//    }
-//}
-
-@Preview(
-    showSystemUi = true
-)
+@Preview(showSystemUi = true)
 @Composable
-fun out(){
+fun PreviewCalendar() {
     val navController = rememberNavController()
     TheCalender(navController)
 }
