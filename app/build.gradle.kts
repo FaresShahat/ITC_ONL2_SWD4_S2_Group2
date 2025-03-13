@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id ("kotlin-kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -76,19 +77,19 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-        // Room Database
-        implementation (libs.androidx.room.runtime)
+    // Room Database
+    implementation (libs.androidx.room.runtime)
 
-        // لتشغيل Coroutines مع Room
-        implementation (libs.androidx.room.ktx)
+    // لتشغيل Coroutines مع Room
+    implementation (libs.androidx.room.ktx)
 
-        // ViewModel و LiveData لدعم الـ UI
-        implementation (libs.androidx.lifecycle.viewmodel.ktx)
-        implementation (libs.androidx.lifecycle.livedata.ktx)
+    // ViewModel و LiveData لدعم الـ UI
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation (libs.androidx.lifecycle.livedata.ktx)
 
-        // دعم Kotlin Coroutines
-        implementation (libs.kotlinx.coroutines.android)
-        implementation (libs.jetbrains.kotlinx.coroutines.core)
+    // دعم Kotlin Coroutines
+    implementation (libs.kotlinx.coroutines.android)
+    implementation (libs.jetbrains.kotlinx.coroutines.core)
 
     //The calender
     implementation("androidx.compose.material3:material3:1.2.0")
@@ -99,4 +100,35 @@ dependencies {
     implementation ("androidx.compose.material3:material3:1.1.2") // For Material 3
     implementation ("androidx.compose.material:material:1.5.4") // For Material 2
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.32.0")//Add the Accompanist Dependency
+    implementation("androidx.compose.material:material-icons-extended:1.6.0")//add Agregar la Dependencia de Material Icons
+    implementation("androidx.compose.material:material-icons-extended:1.6.0")//add Agregar la Dependencia Correcta
+
+    // Hilt
+    implementation("com.google.dagger:hilt-android:2.51")
+    kapt("com.google.dagger:hilt-android-compiler:2.51")
+
+    // Hilt for WorkManager integration
+    implementation("androidx.hilt:hilt-work:1.2.0")
+    kapt("androidx.hilt:hilt-compiler:1.2.0")
+
+    // WorkManager
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
+
+    // WorkManager with Hilt
+    implementation("androidx.hilt:hilt-work:1.2.0")
+
+    // Kotlin Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
+
+    // WorkManager with Coroutines
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
+
+    //ROOM with ksp
+    val room_version = "2.6.1"
+
+    implementation("androidx.room:room-runtime:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+
 }
