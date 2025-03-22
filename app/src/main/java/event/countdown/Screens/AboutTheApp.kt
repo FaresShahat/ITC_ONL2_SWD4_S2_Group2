@@ -84,10 +84,10 @@ fun AboutTheApp(navController: NavController) {
             linkedInUrl = ""
         ),
         TeamMember(
-            name = "Ahmed",
-            githubUrl = "",
-            whatsappUrl = "https://wa.me/+20",
-            linkedInUrl = ""
+            name = "Ahmed Mohammed",
+            githubUrl = "https://github.com/ahmedelnagar90",
+            whatsappUrl = "https://wa.me/+201022940256",
+            linkedInUrl = "https://www.linkedin.com/in/ahmed-elnagar-784928288?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
         )
     )
 
