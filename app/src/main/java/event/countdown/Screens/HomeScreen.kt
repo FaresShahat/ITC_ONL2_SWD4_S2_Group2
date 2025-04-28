@@ -118,7 +118,7 @@ fun ClockAppScreen(navController: NavHostController) {
                         scope.launch { drawerState.close() }
                         navController.navigate(Screens.InterfaceColoring.route)
                     }
-                    DrawerItem(icon = R.drawable.help, text = "Suggest or Problem") {
+                    DrawerItem(icon = R.drawable.help, text = "Feed Back") {
                         scope.launch { drawerState.close() }
                         navController.navigate(Screens.SuggestOrProblem.route)
                     }
