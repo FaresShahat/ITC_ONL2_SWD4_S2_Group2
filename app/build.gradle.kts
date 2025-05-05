@@ -53,7 +53,6 @@ android {
 dependencies {
 
     implementation("androidx.compose.material:material-icons-extended:1.6.0")
-
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.31.1-alpha")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

@@ -17,3 +17,4 @@ allprojects {
     // We'll rely on the sourceCompatibility and targetCompatibility 
     // settings in app/build.gradle.kts instead
 }
+
