@@ -12,7 +12,7 @@ android {
     defaultConfig {
         applicationId = "event.countdown"
         minSdk = 28
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -130,5 +130,7 @@ dependencies {
     implementation("androidx.room:room-runtime:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
+
+    implementation ("androidx.datastore:datastore-preferences:1.0.0")
 
 }

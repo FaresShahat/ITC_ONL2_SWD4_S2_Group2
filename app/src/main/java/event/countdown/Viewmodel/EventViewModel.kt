@@ -11,7 +11,6 @@ import java.util.Date
 
 class EventViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: EventRepository
-
     val allEvents: LiveData<List<Event>>
 
     init {

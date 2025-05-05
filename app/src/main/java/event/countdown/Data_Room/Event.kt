@@ -11,8 +11,14 @@ data class Event(
     val timestamp: Date
 )
 
-
-
+//@Entity(tableName = "events")
+//data class Event(
+//    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+//    val title: String,
+//    val startTime: Long, // التوقيت كمللي ثانية
+//    val endTime: Long,
+//    val eventDate: String // التاريخ كسلسلة نصية
+//)
 
 
 
