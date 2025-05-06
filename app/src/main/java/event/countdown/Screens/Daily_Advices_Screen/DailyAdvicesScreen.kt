@@ -1,5 +1,7 @@
 package event.countdown.Screens.Daily_Advices_Screen
 
+import android.R.color
+import androidx.compose.foundation.background
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,8 +17,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -103,6 +107,7 @@ fun DailyAdviceScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(MaterialTheme.colorScheme.secondary)
             .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -111,14 +116,14 @@ fun DailyAdviceScreen(navController: NavHostController) {
             text = "نصيحة اليوم",
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
+            color = MaterialTheme.colorScheme.onSecondary,
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
         Text(
             text = adviceList[currentAdviceIndex],
             style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurface,
+            color = MaterialTheme.colorScheme.surface,
             modifier = Modifier.padding(bottom = 24.dp),
             textAlign = TextAlign.Center
         )
@@ -138,13 +143,13 @@ fun DailyAdviceScreen(navController: NavHostController) {
             Text(
                 text = "الوقت المتبقي للنصيحة القادمة:",
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                color = MaterialTheme.colorScheme.surface.copy(alpha = 0.6f)
             )
 
             Text(
                 text = timeRemaining,
                 style = MaterialTheme.typography.headlineSmall,
-                color = if (canShowNewAdvice) Color.Green else MaterialTheme.colorScheme.primary,
+                color = if (canShowNewAdvice) Color.Green else MaterialTheme.colorScheme.onSecondary,
                 fontWeight = FontWeight.Bold
             )
 
@@ -158,6 +163,13 @@ fun DailyAdviceScreen(navController: NavHostController) {
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun DailyAdviceScreenPreview() {
+    DailyAdviceScreen(navController = rememberNavController())
+
 }
 //package event.countdown.Screens
 //
