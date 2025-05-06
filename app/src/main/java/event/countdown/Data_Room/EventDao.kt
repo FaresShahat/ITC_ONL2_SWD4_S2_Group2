@@ -1,24 +1,33 @@
 package event.countdown.Data_Room
 
+
+
 import androidx.room.*
-import kotlinx.coroutines.flow.Flow
+import androidx.room.Dao
+
+
+
+
 
 @Dao
 interface EventDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(event: Event)
-
-    @Update
-    suspend fun update(event: Event)
-
-    @Delete
-    suspend fun delete(event: Event)
-
-    @Query("SELECT * FROM events ORDER BY timestamp ASC")
-    fun getAllEvents(): Flow<List<Event>>
+    @Insert
+    suspend fun insert(event: Event): Long
 
     @Query("SELECT * FROM events WHERE id = :eventId")
-    suspend fun getEventById(eventId: Int): Event?
+    suspend fun getEvent(eventId: Int): Event?
+
+    @Query("SELECT * FROM events")
+    suspend fun getAllEvents(): List<Event>
+
+    @Query("DELETE FROM events WHERE id = :eventId")
+    suspend fun delete(eventId: Int)
+
+    @Query("UPDATE events SET timeInMillis = :newTime WHERE id = :eventId")
+    suspend fun updateTime(eventId: Int, newTime: Long)
+
+
+
 }
 
 
@@ -40,8 +49,23 @@ interface EventDao {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
 //import androidx.room.*
-//import kotlinx.coroutines.flow.Flow
 //
 //@Dao
 //interface EventDao {
@@ -52,11 +76,35 @@ interface EventDao {
 //    suspend fun update(event: Event)
 //
 //    @Delete
-//    suspend fun delete(event: Event)
+//    suspend fun delete(event: Int)
 //
-//    @Query("SELECT * FROM events ORDER BY timestamp ASC")
-//    fun getAllEvents(): Flow<List<Event>>
+//  //  @Query("SELECT * FROM events ORDER BY timestamp ASC")
+//    //fun getAllEvents(): Flow<List<Event>>
 //
 //    @Query("SELECT * FROM events WHERE id = :eventId")
 //    suspend fun getEventById(eventId: Int): Event?
+//    fun updateTime(eventId: Int, newTime: Long)
+//    fun getEvent(eventId: Int): Event?
+//    abstract fun getAllEvents(): Any
 //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

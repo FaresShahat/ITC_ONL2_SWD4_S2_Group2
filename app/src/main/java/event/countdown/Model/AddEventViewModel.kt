@@ -14,7 +14,6 @@ class AddEventViewModel @Inject constructor(
     private val repository: EventRepository
 ) : ViewModel() {
 
-    val events: Flow<List<Event>> = repository.allEvents
 
     fun addEvent(date: String, eventName: String) {
         viewModelScope.launch {
