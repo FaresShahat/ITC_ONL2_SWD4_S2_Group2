@@ -132,7 +132,7 @@ fun ClockAppScreen(navController: NavHostController) {
                     }
                 }
             }
-        ){
+        ) {
             Scaffold(
                 containerColor = Color.Transparent,
                 topBar = {
@@ -146,7 +146,11 @@ fun ClockAppScreen(navController: NavHostController) {
                         },
                         navigationIcon = {
                             IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                                Icon(painterResource(id = R.drawable.menu_icon), contentDescription = "Menu", tint = Color.White)
+                                Icon(
+                                    painterResource(id = R.drawable.menu_icon),
+                                    contentDescription = "Menu",
+                                    tint = Color.White
+                                )
                             }
                         },
                         actions = {
@@ -164,19 +168,20 @@ fun ClockAppScreen(navController: NavHostController) {
                     )
                 },
                 floatingActionButton = {
-                    FloatingActionButton(
-                        onClick = { navController.navigate(Screens.AddEventScreen.route) },
-                        shape = CircleShape,
-                        containerColor = Color(0xFFFF006E),
-                        contentColor = Color.White
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.add),
-                            contentDescription = "Add Event",
-                            tint = Color.White,
-                            modifier = Modifier.size(28.dp)
-                        )
-                    }
+                    ExpandableFab(navController = navController)
+//                    FloatingActionButton(
+//                        onClick = { navController.navigate(Screens.AddEventScreen.route) },
+//                        shape = CircleShape,
+//                        containerColor = Color(0xFFFF006E),
+//                        contentColor = Color.White
+//                    ) {
+//                        Icon(
+//                            painter = painterResource(id = R.drawable.add),
+//                            contentDescription = "Add Event",
+//                            tint = Color.White,
+//                            modifier = Modifier.size(28.dp)
+//                        )
+//                    }
                 }
             ) { paddingValues ->
                 Column(
@@ -352,11 +357,24 @@ fun ClockAppScreen(navController: NavHostController) {
 
                     if (showDialog) {
                         AddEventDialog(
-                            onAddEvent = { event ->
-                                val currentDateKey = dateFormat.format(selectedDate)
-                                events.getOrPut(currentDateKey) { mutableListOf() }.add(event)
-                                showDialog = false
-                            },
+                            eventName = "",
+                            startTime = 0f,
+                            endTime = 0f,
+                            onEventNameChange = {},
+                            onStartTimeChange = {},
+                            onEndTimeChange = {},
+                            onAddEvent = {},
+//                            onAddEvent = { event, start, end ->
+//                                val currentDateKey = dateFormat.format(selectedDate)
+//                                events.getOrPut(currentDateKey) { mutableListOf() }
+//                                    .add("$event - من $start إلى $end")
+//                                showDialog = false
+                            /////////////
+//                                event ->
+//                                val currentDateKey = dateFormat.format(selectedDate)
+//                                events.getOrPut(currentDateKey) { mutableListOf() }.add(event)
+//                                showDialog = false
+//                            },
                             onCancel = { showDialog = false },
                             navController = navController
                         )
@@ -375,10 +393,83 @@ fun DrawerItem(icon: Int, text: String, onClick: () -> Unit) {
             .fillMaxWidth()
             .padding(8.dp)
     ) {
-        Icon(painter = painterResource(id = icon), contentDescription = null, tint = Color.Black, modifier = Modifier.size(30.dp))
+        Icon(
+            painter = painterResource(id = icon),
+            contentDescription = null,
+            tint = Color.Black,
+            modifier = Modifier.size(30.dp)
+        )
         Spacer(modifier = Modifier.width(10.dp))
         Text(text, fontSize = 16.sp, color = Color.Black)
     }
 }
 
-
+@Composable
+fun ExpandableFab(navController: NavHostController) {
+    var expanded by remember { mutableStateOf(false) }
+    Box(modifier = Modifier.wrapContentSize(Alignment.BottomEnd)) {
+        Column(
+            horizontalAlignment = Alignment.End,
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.padding(16.dp)
+        ) {
+            // إذا كانت القائمة موسعة، نظهر الأزرار الإضافية
+            if (expanded) {
+                // الزر الإضافي الأول
+                FloatingActionButton(
+                    onClick = {
+                        navController.navigate(Screens.AddEventScreen.route)
+                        // يمكنك إضافة كود آخر إذا احتجت
+                    },
+                    shape = CircleShape,
+                    containerColor = Color(0xFFFF006E),
+                    contentColor = Color.White
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.add),
+                        contentDescription = "First Action",
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+                // الزر الإضافي الثاني
+                FloatingActionButton(
+                    onClick = {
+                        navController.navigate(Screens.DailyAdviceScreen.route)
+                    },
+                    shape = CircleShape,
+                    containerColor = Color(0xFFFF006E),
+                    contentColor = Color.White
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.help),
+                        contentDescription = "Second Action",
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            }
+            // الزر الرئيسي: يعمل على تبديل حالة القائمة بين التوسيع والإغلاق
+            FloatingActionButton(
+                onClick = { expanded = !expanded },
+                shape = CircleShape,
+                containerColor = Color(0xFFFF006E),
+                contentColor = Color.White
+            ) {
+                if (expanded) {
+                    // أيقونة الرجوع تظهر عندما تكون القائمة موسعة
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_arrow_drop_down), // تأكد من توفر أيقونة الرجوع في resources
+                        contentDescription = "Close",
+                        modifier = Modifier.size(28.dp)
+                    )
+                } else {
+                    // أيقونة التوسيع الأصلية
+                    Icon(
+                        painter = painterResource(id = R.drawable.add),
+                        contentDescription = "Open",
+                        modifier = Modifier.size(28.dp)
+                    )
+                }
+            }
+        }
+    }
+}

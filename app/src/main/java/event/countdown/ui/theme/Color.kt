@@ -18,7 +18,7 @@ val light_onBackgaround=  Color(0xFF6200EE)
 
 val dark_Primary=Color(0xFFC1D5D5)
 val dark_onPrimary=Color(0xFFEFB8C8)
-val dark_Secondary=Color(0XFF565432188)
+val dark_Secondary=Color(0xFF0D1B2A)
 val dark_onSecondary= Color(0xFFD0BC888)
 val dark_Surface = Color(0xFFFFC107)
 val dark_onSurface= Color(0xFFFF5722)
