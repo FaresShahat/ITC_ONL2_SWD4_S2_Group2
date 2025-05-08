@@ -12,7 +12,7 @@ android {
     defaultConfig {
         applicationId = "event.countdown"
         minSdk = 28
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -32,11 +32,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -53,9 +53,7 @@ android {
 }
 dependencies {
 
-
-    implementation ("androidx.compose.material:material-icons-extended:<نسخة_الـ_compose>")
-
+    implementation("androidx.compose.material:material-icons-extended:1.6.0")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.31.1-alpha")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -107,11 +105,11 @@ dependencies {
 
     // Hilt
     implementation("com.google.dagger:hilt-android:2.51")
-    kapt("com.google.dagger:hilt-android-compiler:2.51")
+    ksp("com.google.dagger:hilt-android-compiler:2.51")
 
     // Hilt for WorkManager integration
     implementation("androidx.hilt:hilt-work:1.2.0")
-    kapt("androidx.hilt:hilt-compiler:1.2.0")
+    ksp("androidx.hilt:hilt-compiler:1.2.0")
 
     // WorkManager
     implementation("androidx.work:work-runtime-ktx:2.9.0")
@@ -143,4 +141,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6")
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
+    implementation ("androidx.datastore:datastore-preferences:1.0.0")
+
 }
