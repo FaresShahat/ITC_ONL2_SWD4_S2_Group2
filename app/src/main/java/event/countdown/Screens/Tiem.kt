@@ -18,6 +18,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.*
@@ -25,13 +27,15 @@ import java.util.*
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "SimpleDateFormat")
 @Composable
-fun Evennt() {
+fun Evennt(navController: NavHostController= rememberNavController()) {
     val context = LocalContext.current
     var selectedDate by remember { mutableStateOf(Calendar.getInstance().time) }
     var showDialog by remember { mutableStateOf(false) }
     val events = remember { mutableStateMapOf<String, MutableList<String>>() }
     val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale("ar"))
-
+    var eventName by remember { mutableStateOf("") }
+    var startTime by remember { mutableStateOf(0f) }
+    var endTime by remember { mutableStateOf(0f) }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -119,12 +123,19 @@ fun Evennt() {
     // Dialog لإضافة حدث جديد
     if (showDialog) {
         AddEventDialog(
-            onAddEvent = { event ->
+            eventName = eventName,
+            startTime = startTime,
+            endTime = endTime,
+            onEventNameChange = { eventName = it },
+            onStartTimeChange = { startTime = it },
+            onEndTimeChange = { endTime = it },
+            onAddEvent = {
                 val currentDateKey = dateFormat.format(selectedDate)
-                events.getOrPut(currentDateKey) { mutableListOf() }.add(event)
+                events.getOrPut(currentDateKey) { mutableListOf() }.add(eventName)
                 showDialog = false
             },
-            onCancel = { showDialog = false }
+            onCancel = { showDialog = false },
+            navController = navController
         )
     }
 }
@@ -162,41 +173,88 @@ fun CircularClock() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddEventDialog(onAddEvent: (String) -> Unit, onCancel: () -> Unit) {
-    var eventText by remember { mutableStateOf("") }
-
+fun AddEventDialog(
+    eventName: String,
+    startTime: Float,
+    endTime: Float,
+    onEventNameChange: (String) -> Unit,
+    onStartTimeChange: (Float) -> Unit,
+    onEndTimeChange: (Float) -> Unit,
+    onAddEvent: () -> Unit,
+    onCancel: () -> Unit,
+    navController: NavHostController
+) {
     AlertDialog(
         onDismissRequest = onCancel,
+        title = { Text("Add Event") },
+        text = {
+            Column {
+                TextField(
+                    value = eventName,
+                    onValueChange = onEventNameChange,
+                    label = { Text("Event Name") }
+                )
+                TextField(
+                    value = startTime.toString(),
+                    onValueChange = { onStartTimeChange(it.toFloatOrNull() ?: 0f) },
+                    label = { Text("Start Time") }
+                )
+                TextField(
+                    value = endTime.toString(),
+                    onValueChange = { onEndTimeChange(it.toFloatOrNull() ?: 0f) },
+                    label = { Text("End Time") }
+                )
+            }
+        },
         confirmButton = {
-            TextButton(onClick = {
-                if (eventText.isNotBlank()) {
-                    onAddEvent(eventText)
-                    eventText = ""
-                }
-            }) {
-                Text("إضافة")
+            TextButton(onClick = onAddEvent) {
+                Text("Add")
             }
         },
         dismissButton = {
             TextButton(onClick = onCancel) {
-                Text("إلغاء")
+                Text("Cancel")
             }
-        },
-        title = { Text("إضافة حدث جديد", fontWeight = FontWeight.Bold) },
-        text = {
-            Column {
-                Text("أدخل اسم الحدث:")
-                TextField(
-                    value = eventText,
-                    onValueChange = { eventText = it },
-                    singleLine = true,
-//                    colors = TextFieldDefaults.textFieldColors( Color.White, containerColor = Color.DarkGray)
-                )
-            }
-        },
-        containerColor = Color(0xFF333333)
+        }
     )
 }
+
+//@Composable
+//fun AddEventDialog(onAddEvent: (String) -> Unit, onCancel: () -> Unit) {
+//    var eventText by remember { mutableStateOf("") }
+//
+//    AlertDialog(
+//        onDismissRequest = onCancel,
+//        confirmButton = {
+//            TextButton(onClick = {
+//                if (eventText.isNotBlank()) {
+//                    onAddEvent(eventText)
+//                    eventText = ""
+//                }
+//            }) {
+//                Text("إضافة")
+//            }
+//        },
+//        dismissButton = {
+//            TextButton(onClick = onCancel) {
+//                Text("إلغاء")
+//            }
+//        },
+//        title = { Text("إضافة حدث جديد", fontWeight = FontWeight.Bold) },
+//        text = {
+//            Column {
+//                Text("أدخل اسم الحدث:")
+//                TextField(
+//                    value = eventText,
+//                    onValueChange = { eventText = it },
+//                    singleLine = true,
+////                    colors = TextFieldDefaults.textFieldColors( Color.White, containerColor = Color.DarkGray)
+//                )
+//            }
+//        },
+//        containerColor = Color(0xFF333333)
+//    )
+//}
 
 private fun changeDate(date: Date, days: Int): Date {
     val calendar = Calendar.getInstance()
@@ -208,5 +266,7 @@ private fun changeDate(date: Date, days: Int): Date {
 @Preview(showSystemUi = true)
 @Composable
 fun dd(){
-    Evennt()
+    Evennt(
+
+    )
 }

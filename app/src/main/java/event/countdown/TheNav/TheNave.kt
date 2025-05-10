@@ -4,9 +4,14 @@ import event.countdown.Screens.AddEvent
 import event.countdown.Screens.ClockAppScreen
 import event.countdown.Screens.TheCalender
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import event.countdown.Data.EventViewModel
+import event.countdown.Model.ClockViewModel
 import event.countdown.Screens.AboutTheApp
 import event.countdown.Screens.ApplicationSupport
 import event.countdown.Screens.Daily_Advices_Screen.DailyAdviceScreen
@@ -26,8 +31,12 @@ fun AppNavHost(navController: NavHostController){
         composable(
             route=Screens.HomeScreen.route
         ) {
+            val viewModel: EventViewModel = hiltViewModel()
+            val state by viewModel.state.collectAsState()
             ClockAppScreen(
-                navController
+                navController,
+                state = state,
+                onEvent = viewModel::onEvent
             )
         }
         composable(
@@ -40,8 +49,10 @@ fun AppNavHost(navController: NavHostController){
         composable(
             route=Screens.AddEventScreen.route
         ) {
+            val viewModel: EventViewModel = hiltViewModel()
             AddEvent(
-                navController
+                navController,
+                viewModel = viewModel
             )
         }
         composable(route = Screens.InterfaceElementColor.route) { InterfaceElementColor(navController) }

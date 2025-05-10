@@ -5,10 +5,6 @@ package event.countdown.Data_Room
 import androidx.room.*
 import androidx.room.Dao
 
-
-
-
-
 @Dao
 interface EventDao {
     @Insert
