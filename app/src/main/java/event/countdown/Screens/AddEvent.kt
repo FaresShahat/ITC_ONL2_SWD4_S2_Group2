@@ -87,7 +87,7 @@ fun AddEventDialog(
             }
         },
         dismissButton = {
-            Button(onClick = { navController.popBackStack() }) {
+            TextButton(onClick = onCancel) {
                 Text("Cancel", color = Color(0xFF9C27B0))
             }
         },
@@ -167,6 +167,11 @@ fun ShowDatePickerDialog(context: Context, onDateSelected: (String) -> Unit) {
         month,
         day
     ).show()
+}
+
+fun getTodayDate(): String {
+    val c = Calendar.getInstance()
+    return "${c.get(Calendar.DAY_OF_MONTH)}/${c.get(Calendar.MONTH)+1}/${c.get(Calendar.YEAR)}"
 }
 
 fun formatTime(minutes: Int): String {

@@ -1,13 +1,7 @@
 package event.countdown.Data_Room
 
-
-
 import androidx.room.*
 import androidx.room.Dao
-
-
-
-
 
 @Dao
 interface EventDao {
@@ -25,8 +19,6 @@ interface EventDao {
 
     @Query("UPDATE events SET timeInMillis = :newTime WHERE id = :eventId")
     suspend fun updateTime(eventId: Int, newTime: Long)
-
-
 
 }
 
