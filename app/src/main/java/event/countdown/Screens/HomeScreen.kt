@@ -109,11 +109,7 @@ fun ClockAppScreen(navController: NavHostController) {
                         scope.launch { drawerState.close() }
                         navController.navigate(Screens.CalendarScreen.route)
                     }
-                    DrawerItem(icon = R.drawable.settings, text = "Settings") {
-                        scope.launch { drawerState.close() }
-                        navController.navigate(Screens.Setting.route)
-                    }
-                    DrawerItem(icon = R.drawable.help, text = "Feed Back") {
+                    DrawerItem(icon = R.drawable.help, text = "Suggest or Problem") {
                         scope.launch { drawerState.close() }
                         navController.navigate(Screens.SuggestOrProblem.route)
                     }
@@ -130,7 +126,7 @@ fun ClockAppScreen(navController: NavHostController) {
                     TopAppBar(
                         title = {
                             Text(
-                                text = "Remind me",
+                                text = "Spectrograph",
                                 color = Color.White,
                                 fontSize = 20.sp
                             )
@@ -140,6 +136,15 @@ fun ClockAppScreen(navController: NavHostController) {
                                 Icon(
                                     painterResource(id = R.drawable.menu_icon),
                                     contentDescription = "Menu",
+                                    tint = Color.White
+                                )
+                            }
+                        },
+                        actions = {
+                            IconButton(onClick = { }) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.vertical_ellipsis_icon),
+                                    contentDescription = "Settings",
                                     tint = Color.White
                                 )
                             }
