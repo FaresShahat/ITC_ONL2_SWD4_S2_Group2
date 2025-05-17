@@ -109,25 +109,13 @@ fun ClockAppScreen(navController: NavHostController) {
                         scope.launch { drawerState.close() }
                         navController.navigate(Screens.CalendarScreen.route)
                     }
-                    DrawerItem(icon = R.drawable.palette, text = "Interface Element Color") {
-                        scope.launch { drawerState.close() }
-                        navController.navigate(Screens.InterfaceElementColor.route)
-                    }
                     DrawerItem(icon = R.drawable.settings, text = "Settings") {
                         scope.launch { drawerState.close() }
                         navController.navigate(Screens.Setting.route)
                     }
-                    DrawerItem(icon = R.drawable.sync, text = "Interface Coloring") {
-                        scope.launch { drawerState.close() }
-                        navController.navigate(Screens.InterfaceColoring.route)
-                    }
                     DrawerItem(icon = R.drawable.help, text = "Feed Back") {
                         scope.launch { drawerState.close() }
                         navController.navigate(Screens.SuggestOrProblem.route)
-                    }
-                    DrawerItem(icon = R.drawable.support, text = "Application Support") {
-                        scope.launch { drawerState.close() }
-                        navController.navigate(Screens.ApplicationSupport.route)
                     }
                     DrawerItem(icon = R.drawable.info, text = "About the App") {
                         scope.launch { drawerState.close() }
@@ -142,7 +130,7 @@ fun ClockAppScreen(navController: NavHostController) {
                     TopAppBar(
                         title = {
                             Text(
-                                text = "Spectrograph",
+                                text = "Remind me",
                                 color = Color.White,
                                 fontSize = 20.sp
                             )
@@ -152,15 +140,6 @@ fun ClockAppScreen(navController: NavHostController) {
                                 Icon(
                                     painterResource(id = R.drawable.menu_icon),
                                     contentDescription = "Menu",
-                                    tint = Color.White
-                                )
-                            }
-                        },
-                        actions = {
-                            IconButton(onClick = { }) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.vertical_ellipsis_icon),
-                                    contentDescription = "Settings",
                                     tint = Color.White
                                 )
                             }
